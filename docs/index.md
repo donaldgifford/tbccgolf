@@ -2,7 +2,7 @@
 layout: default
 ---
 
-# Rex
+# TBCC Golf
 
 ## ADRs
 
