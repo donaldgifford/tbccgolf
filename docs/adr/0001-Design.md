@@ -1,6 +1,16 @@
-# Design Doc
+---
+permalink: /:path/:basename:output_ext
+title: 0001-Design
+layout: adr
+---
 
-## Intro
+# Design
+
+| Status | Author         | Date       |
+| ------ | -------------- | ---------- |
+| Draft  | @donaldgifford | 2024-06-10 |
+
+# Intro
 
 tbcc golf app is an app to allow tracking games to replace the google sheets used now. Mainly this is to be used for non official games since golf genius is used for those.
 
