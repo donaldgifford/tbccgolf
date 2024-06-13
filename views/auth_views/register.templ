@@ -1,0 +1,48 @@
+package auth_views
+
+import "github.com/donaldgifford/tbccgolf/views/layout"
+
+templ Register(fromProtected bool) {
+if fromProtected {
+<section>
+  <h1>
+    Already Registered
+  </h1>
+</section>
+} else {
+<section>
+  <h1>
+    Register User
+  </h1>
+  <form hx-swap="transition:true" class="" action="" method="post">
+    Email:
+    <input type="email" name="email" placeholder="Email" autocomplete="email" required autofocus disabled?={
+      fromProtected } />
+    Password:
+    <input type="password" name="password" placeholder="Password" required minlength="6" disabled?={ fromProtected } />
+    Username:
+    <input type="text" name="username" required minlength="4" placeholder="Username" maxlength="64" disabled?={
+      fromProtected } />
+    <footer>
+      <button disabled?={ fromProtected }>
+        Register User
+      </button>
+    </footer>
+  </form>
+</section>
+}
+}
+
+templ RegisterIndex(
+title,
+username string,
+fromProtected bool,
+isError bool,
+errMsgs []string,
+sucMsgs []string,
+cmp templ.Component,
+) {
+@layout.Base(title, username, fromProtected, isError, errMsgs, sucMsgs) {
+@cmp
+}
+}

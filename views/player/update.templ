@@ -1,0 +1,27 @@
+package player
+
+import (
+	"fmt"
+
+	"github.com/donaldgifford/tbccgolf/services"
+)
+
+templ UpdatePlayer(player services.Player, tz string) {
+	<h1>Update Player - { player.Name }</h1>
+	<section>
+		<form method="post" hx-swap="transition:true">
+			Player Name:
+			<input type="text" name="name" value={ player.Name } required autofocus minlength="3" maxlength="64"/>
+			Player Email:
+			<input type="email" name="email" value={ player.Email } required autofocus min="60" max="74"/>
+			Player Username:
+			<input type="text" name="username" value={ player.Username } required autofocus min="60" max="74"/>
+			<footer>
+				<button>Save</button>
+				<a href={ templ.URL(fmt.Sprintf("/player/details/%d", player.ID)) }>
+					Cancel
+				</a>
+			</footer>
+		</form>
+	</section>
+}

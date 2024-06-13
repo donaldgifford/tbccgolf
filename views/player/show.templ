@@ -1,0 +1,67 @@
+package player
+
+import (
+	"strconv"
+	"github.com/donaldgifford/tbccgolf/services"
+	"github.com/donaldgifford/tbccgolf/views/layout"
+	"fmt"
+)
+
+templ Show(players []*services.Player) {
+	<h1>
+		Player List
+	</h1>
+	<section>
+		<table>
+			<thead>
+				<tr>
+					<th></th>
+					<th>Username</th>
+					<th>Email</th>
+				</tr>
+			</thead>
+			if len(players) != 0 {
+				<tbody>
+					for _, player := range players {
+						<tr>
+							<th>{ strconv.Itoa(int(player.ID)) }</th>
+							<td>
+								<a
+									hx-swap="transition:true"
+									hx-headers="js:{'X-TimeZone': Intl.DateTimeFormat().resolvedOptions().timeZone}"
+									class="hover:text-sky-500 ease-in duration-300 hover:underline flex gap-2 justify-between"
+									href={ templ.URL(fmt.Sprintf("/player/details/%d", player.ID)) }
+								>
+									{ player.Username }
+									<img src="/img/info_icon.svg" alt="Info icon"/>
+								</a>
+							</td>
+							<td>{ player.Email }</td>
+						</tr>
+					}
+				</tbody>
+			} else {
+				<tbody>
+					<tr>
+						<td>
+							There are no users to show yet
+						</td>
+					</tr>
+				</tbody>
+			}
+		</table>
+	</section>
+}
+
+templ ShowIndex(
+title,
+username string,
+fromProtected bool,
+isError bool,
+errMsgs, sucMsgs []string,
+cmp templ.Component,
+) {
+	@layout.Base(title, username, fromProtected, isError, errMsgs, sucMsgs) {
+		@cmp
+	}
+}
