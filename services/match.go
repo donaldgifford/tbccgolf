@@ -7,12 +7,16 @@ import (
 	"gorm.io/gorm"
 )
 
+// TODO: Add scoring, scores, etc.
+
 type Match struct {
 	gorm.Model
-	NetScore  bool      `form:"NetScore"`
-	Length    int       `form:"Length"`
-	Players   []*Player `gorm:"many2many:player_matches" form:"Players"`
-	Completed bool
+	NetScore    bool `form:"NetScore"`
+	ScoringType string
+	Length      int       `form:"Length"`
+	Players     []*Player `gorm:"many2many:player_matches" form:"Players"`
+	Completed   bool
+	Title       string
 }
 
 type PlayerList struct {
@@ -34,11 +38,10 @@ type ServicesMatch struct {
 }
 
 // Return all matches paginated or error
-// TODO: Need to have it return the connected tables for players as well
-// they are missing in the response.
 func (ms *ServicesMatch) GetMatches() ([]*Match, error) {
 	var matches []*Match
-	if res := ms.DB.Find(&matches); res.Error != nil {
+
+	if res := ms.DB.Model(Match{}).Preload("Players").Find(&matches); res.Error != nil {
 		return nil, res.Error
 	}
 
@@ -61,9 +64,11 @@ func (ms *ServicesMatch) GetMatch(matchID int) (Match, error) {
 // Create new match
 func (ms *ServicesMatch) CreateMatch(m Match) error {
 	newMatch := Match{
-		NetScore:  m.NetScore,
-		Players:   m.Players,
-		Completed: false,
+		ScoringType: m.ScoringType,
+		NetScore:    m.NetScore,
+		Players:     m.Players,
+		Completed:   false,
+		Length:      m.Length,
 	}
 
 	if err := ms.DB.Create(&newMatch).Error; err != nil {

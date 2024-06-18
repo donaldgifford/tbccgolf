@@ -1,9 +1,9 @@
 package handlers
 
 import (
-	"errors"
 	"fmt"
 	"net/http"
+	"strconv"
 	"strings"
 
 	"github.com/a-h/templ"
@@ -45,13 +45,13 @@ func (mh *MatchHandler) ShowMatches(c echo.Context) error {
 	}
 
 	fmt.Println(matches)
-	for _, m := range matches {
-		fmt.Printf("Netscore: %v\n", m.NetScore)
-		for _, p := range m.Players {
-			fmt.Println("Players=======")
-			fmt.Printf("Player: %s\n", p.Username)
-		}
-	}
+	// for _, m := range matches {
+	// 	fmt.Printf("Netscore: %v\n", m.NetScore)
+	// 	for _, p := range m.Players {
+	// 		fmt.Println("Players=======")
+	// 		fmt.Printf("Player: %s\n", p.Username)
+	// 	}
+	// }
 
 	titlePage := fmt.Sprintf(
 		"| %s",
@@ -70,30 +70,11 @@ func (mh *MatchHandler) ShowMatches(c echo.Context) error {
 }
 
 type MatchCreateForm struct {
-	Player1  string `form:"Player1"`
-	Player2  string `form:"Player2"`
-	NetScore string `form:"NetScore"`
-	Length   string `form:"Length"`
-}
-
-func stringToBool(s string) (bool, error) {
-	if s == "on" {
-		return true, nil
-	} else if s == "off" {
-		return false, nil
-	} else {
-		return false, errors.New("could not convert to bool")
-	}
-}
-
-func lengthBoolToInt(b bool) (int, error) {
-	if b == true {
-		return 9, nil
-	} else if b == false {
-		return 18, nil
-	} else {
-		return 0, errors.New("Could not convert bool to int")
-	}
+	Player1     string `form:"Player1"`
+	Player2     string `form:"Player2"`
+	NetScore    string `form:"scoring-type"`
+	ScoringType string `form:"scoring-type"`
+	Length      string `form:"Length"`
 }
 
 func (mh *MatchHandler) CreateMatch(c echo.Context) error {
@@ -145,25 +126,17 @@ func (mh *MatchHandler) CreateMatch(c echo.Context) error {
 		players = append(players, player2)
 
 		// conver to bools
-		l, err := stringToBool(newMatch.Length)
+		l, err := strconv.Atoi(newMatch.Length)
 		if err != nil {
 			return c.String(http.StatusBadRequest, err.Error())
 		}
 
-		lengthInt, err := lengthBoolToInt(l)
-		if err != nil {
-			return c.String(http.StatusBadRequest, err.Error())
-		}
-
-		n, err := stringToBool(newMatch.Length)
-		if err != nil {
-			return c.String(http.StatusBadRequest, err.Error())
-		}
+		fmt.Printf("length: %d\n", l)
 
 		newMatchService := services.Match{
-			NetScore: n,
-			Length:   lengthInt,
-			Players:  players,
+			ScoringType: newMatch.ScoringType,
+			Length:      l,
+			Players:     players,
 		}
 
 		// err := ah.PlayerService.CreatePlayer(player)

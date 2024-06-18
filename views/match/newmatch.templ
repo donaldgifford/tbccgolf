@@ -12,14 +12,18 @@ templ NewMatch(players []services.PlayerList, tz string) {
 	<section>
 		<form method="post" hx-swap="transition:true">
 			<fieldset>
-				<label>
-					<input name="NetScore" type="checkbox" role="switch"/>
-					Net Scoring Enabled
-				</label>
-				<label>
-					<input name="Length" type="checkbox" role="switch" checked/>
-					9 Hole Match
-				</label>
+				<legend>Scoring Type:</legend>
+				<input type="radio" id="net" name="scoring-type" value="Net" checked/>
+				<label htmlFor="net">Net</label>
+				<input type="radio" id="gross" name="scoring-type" value="Gross"/>
+				<label htmlFor="gross">Gross</label>
+			</fieldset>
+			<fieldset>
+				<legend>Holes:</legend>
+				<input type="radio" id="9-holes" name="Length" value="9" checked/>
+				<label htmlFor="9-holes">9 Holes</label>
+				<input type="radio" id="18-holes" name="Length" value="18"/>
+				<label htmlFor="18-holes">18 Holes</label>
 			</fieldset>
 			<select name="Player1" aria-label="Select players" required>
 				<option selected disabled value="">
