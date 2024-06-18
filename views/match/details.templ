@@ -1,0 +1,52 @@
+package match
+
+import (
+	"fmt"
+	"strconv"
+	"github.com/donaldgifford/tbccgolf/services"
+	"github.com/donaldgifford/tbccgolf/views/layout"
+)
+
+templ Details(tz string, match services.Match) {
+	<h1>
+		{ fmt.Sprintf("Match details %d", match.ID) }
+	</h1>
+	<a hx-swap="transition:true" href={ templ.URL(fmt.Sprintf("/match/edit/%d", match.ID)) }>
+		Edit
+	</a>
+	<article>
+		<header>
+			<mark>
+				{ strconv.Itoa(int(match.ID)) }
+			</mark>
+		</header>
+		<ul>
+			<li>
+				Created At:&nbsp;&nbsp;
+				<span>
+					{ services.ConverDateTime(tz, match.CreatedAt) }
+				</span>
+			</li>
+		</ul>
+		<footer>
+			<a hx-swap="transition:true" href="/match">
+				<p>
+					&larr; Back to match List
+				</p>
+			</a>
+		</footer>
+	</article>
+}
+
+templ DetailsIndex(
+title,
+username string,
+fromProtected bool,
+isError bool,
+errMsgs, sucMsgs []string,
+cmp templ.Component,
+) {
+	@layout.Base(title, username, fromProtected, isError, errMsgs, sucMsgs) {
+		@cmp
+	}
+}

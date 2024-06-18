@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -19,6 +20,7 @@ type PlayerService interface {
 	GetAllPlayers() ([]*services.Player, error)
 	GetPlayerById(id int) (services.Player, error)
 	UpdatePlayer(player services.Player) error
+	CreatePlayer(p services.Player) error
 }
 
 func NewPlayerHandler(ps PlayerService) *PlayerHandler {
@@ -167,5 +169,45 @@ func (ph *PlayerHandler) updatePlayerHandler(c echo.Context) error {
 		player.UpdatePlayer(cdata, tz),
 		// player.UpdatePlayer(cdata, tz),
 		// course_views.UpdateCourse(cdata, c.Get(tzone_key).(string)),
+	))
+}
+
+func (ph *PlayerHandler) CreatePlayer(c echo.Context) error {
+	isError = false
+
+	if c.Request().Method == "POST" {
+		player := services.Player{
+			Email:    c.FormValue("email"),
+			Password: c.FormValue("password"),
+			Username: c.FormValue("username"),
+		}
+
+		err := ph.PlayerService.CreatePlayer(player)
+		if err != nil {
+			if strings.Contains(err.Error(), "UNIQUE constraint failed") {
+				err = errors.New("this email is already registered")
+				setFlashmessages(c, "error", fmt.Sprintf("Something went wrong: %s", err))
+
+				return c.Redirect(http.StatusSeeOther, "/register")
+
+			}
+
+			return echo.NewHTTPError(
+				echo.ErrInternalServerError.Code,
+				fmt.Sprintf("Something went wrong: %s", err))
+		}
+
+		setFlashmessages(c, "success", "You are now registered!")
+		return c.Redirect(http.StatusSeeOther, "/login")
+	}
+
+	return ph.View(c, player.ShowIndex(
+		"| Create",
+		"",
+		fromProtected,
+		isError,
+		getFlashmessages(c, "error"),
+		getFlashmessages(c, "success"),
+		player.Create(fromProtected),
 	))
 }

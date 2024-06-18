@@ -10,6 +10,8 @@ var (
 func SetupRoutes(
 	e *echo.Echo,
 	p *PlayerHandler,
+	m *MatchHandler,
+	// s *SSEHandler,
 	ah *AuthHandler,
 ) {
 	e.GET("/", ah.homeHandler)
@@ -21,8 +23,16 @@ func SetupRoutes(
 	// apiGroup.POST("/scorecard", s.APICreateScoreCard)
 	protectedGroup := e.Group("/player", ah.authMiddleware)
 	protectedGroup.GET("", p.HandlerShowPlayers)
+	protectedGroup.GET("/create", p.CreatePlayer)
+	protectedGroup.POST("/create", p.CreatePlayer)
 	protectedGroup.GET("/details/:id", p.HandlerShowPlayerById)
 	protectedGroup.GET("/edit/:id", p.updatePlayerHandler)
 	protectedGroup.POST("/edit/:id", p.updatePlayerHandler)
 	protectedGroup.POST("/logout", p.logoutHandler)
+	matchGroup := e.Group("/matches", ah.authMiddleware)
+	matchGroup.GET("", m.ShowMatches)
+	matchGroup.GET("/create", m.CreateMatch)
+	matchGroup.POST("/create", m.CreateMatch)
+	// sse := e.Group("/sse", ah.authMiddleware)
+	// sse.GET("", s.ShowEvents)
 }

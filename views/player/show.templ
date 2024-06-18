@@ -11,6 +11,9 @@ templ Show(players []*services.Player) {
 	<h1>
 		Player List
 	</h1>
+	<a hx-swap="transition:true" href="/player/create">
+		Create New Players
+	</a>
 	<section>
 		<table>
 			<thead>

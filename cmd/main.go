@@ -34,11 +34,15 @@ func main() {
 	dbGorm.Ping()
 
 	ps := services.NewServicesPlayer(services.Player{}, gorm)
+	ms := services.NewServicesMatch(services.Match{}, gorm)
+	// se := services.NewServicesEvent(services.Event{}, gorm)
 	ah := handlers.NewAuthHandler(ps)
 
+	// s := handlers.SSEHandler(se)
 	p := handlers.NewPlayerHandler(ps)
+	m := handlers.NewMatchHandler(ms)
 
-	handlers.SetupRoutes(e, p, ah)
+	handlers.SetupRoutes(e, p, m, ah)
 
 	e.Logger.Fatal(e.Start(":8080"))
 }

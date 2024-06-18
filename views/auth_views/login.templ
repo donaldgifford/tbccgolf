@@ -3,27 +3,44 @@ package auth_views
 import "github.com/donaldgifford/tbccgolf/views/layout"
 
 templ Login(fromProtected bool) {
-<section class="">
-  <div class="">
-    <h1 class="">
-      Log In
-    </h1>
-    <form hx-swap="transition::{'X-TimeZone': Intl.DateTimeFormat().resolvedOptions().timeZone}" class="" action=""
-      method="post">
-      Email:
-      <input class="input input-bordered input-primary bg-slate-800" type="email" name="email" required autofocus
-        disabled?={ fromProtected } />
-      Password:
-      <input class="input input-bordered input-primary bg-slate-800" type="password" name="password" required
-        minlength="6" disabled?={ fromProtected } />
-      <footer class="">
-        <button class="" disabled?={ fromProtected }>
-          Sign In
-        </button>
-      </footer>
-    </form>
-  </div>
-</section>
+	<section class="">
+		<div class="">
+			<h1 class="">
+				Log In
+			</h1>
+			<form
+				hx-swap="transition:true"
+				hx-headers="js:{'X-TimeZone': Intl.DateTimeFormat().resolvedOptions().timeZone}"
+				class=""
+				action=""
+				method="post"
+			>
+				Email:
+				<input
+					class="input input-bordered input-primary bg-slate-800"
+					type="email"
+					name="email"
+					required
+					autofocus
+					disabled?={ fromProtected }
+				/>
+				Password:
+				<input
+					class="input input-bordered input-primary bg-slate-800"
+					type="password"
+					name="password"
+					required
+					minlength="6"
+					disabled?={ fromProtected }
+				/>
+				<footer class="">
+					<button class="" disabled?={ fromProtected }>
+						Sign In
+					</button>
+				</footer>
+			</form>
+		</div>
+	</section>
 }
 
 templ LoginIndex(
@@ -34,7 +51,7 @@ isError bool,
 errMsgs, sucMsgs []string,
 cmp templ.Component,
 ) {
-@layout.Base(title, username, fromProtected, isError, errMsgs, sucMsgs) {
-@cmp
-}
+	@layout.Base(title, username, fromProtected, isError, errMsgs, sucMsgs) {
+		@cmp
+	}
 }
