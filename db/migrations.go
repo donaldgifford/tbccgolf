@@ -9,7 +9,6 @@ func AutoMigrate() {
 	database.AutoMigrate(&services.Player{})
 	database.AutoMigrate(&services.Match{})
 	database.AutoMigrate(&services.Score{})
-	database.AutoMigrate(&services.Stroke{})
 	database.AutoMigrate(&services.HoleScore{})
 	// database.AutoMigrate(&services.Course{})
 	// database.AutoMigrate(&services.ScoreCard{})

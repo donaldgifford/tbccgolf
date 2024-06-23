@@ -1,19 +1,32 @@
 package services
 
 import (
+	"fmt"
 	"time"
 
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
 
+// type Player struct {
+// 	gorm.Model
+// 	Name     string   `json:"name"`
+// 	Email    string   `json:"email"`
+// 	Password string   `json:"password"`
+// 	Username string   `json:"username"`
+// 	Matches  []*Match `gorm:"many2many:player_matches"`
+// }
+
 type Player struct {
 	gorm.Model
-	Name     string   `json:"name"`
-	Email    string   `json:"email"`
-	Password string   `json:"password"`
-	Username string   `json:"username"`
+	Name     string `json:"name"`
+	Email    string `json:"email"`
+	Password string `json:"password"`
+	Username string `json:"username"`
+
+	Handicap int
 	Matches  []*Match `gorm:"many2many:player_matches"`
+	Scores   []Score
 }
 
 func NewServicesPlayer(p Player, db *gorm.DB) *ServicesPlayer {
@@ -47,12 +60,33 @@ func ConverDateTime(tz string, dt time.Time) string {
 func (sp *ServicesPlayer) GetPlayerById(id int) (Player, error) {
 	var players []*Player
 
-	if res := sp.DB.Find(&players, id); res.Error != nil {
+	if res := sp.DB.Preload("Scores").Find(&players, id); res.Error != nil {
 		return Player{}, res.Error
 	}
 
 	return *players[0], nil
 }
+
+// func (sp *ServicesPlayer) CreatePlayer(p Player) error {
+// 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(p.Password), 8)
+// 	if err != nil {
+// 		return err
+// 	}
+//
+// 	newPlayer := Player{
+// 		Email:    p.Email,
+// 		Username: p.Username,
+// 		Name:     p.Name,
+// 		// Profile:  Profile{Link: p.Profile.Link},
+// 		Password: string(hashedPassword),
+// 	}
+//
+// 	if err := sp.DB.Create(&newPlayer).Error; err != nil {
+// 		return err
+// 	}
+//
+// 	return err
+// }
 
 func (sp *ServicesPlayer) CreatePlayer(p Player) error {
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(p.Password), 8)
@@ -62,17 +96,24 @@ func (sp *ServicesPlayer) CreatePlayer(p Player) error {
 
 	newPlayer := Player{
 		Email:    p.Email,
-		Username: p.Username,
 		Name:     p.Name,
-		// Profile:  Profile{Link: p.Profile.Link},
+		Handicap: p.Handicap,
+		Username: p.Username,
 		Password: string(hashedPassword),
 	}
 
-	if err := sp.DB.Create(&newPlayer).Error; err != nil {
-		return err
+	// if err := sp.DB.Create(&newPlayer).Error; err != nil {
+	// 	return err
+	// }
+
+	res := sp.DB.FirstOrCreate(&newPlayer, Player{Name: newPlayer.Name})
+	if res.RowsAffected > 0 {
+		fmt.Println("New player created")
+	} else {
+		fmt.Println("Player already exists")
 	}
 
-	return err
+	return nil
 }
 
 func (sp *ServicesPlayer) CheckEmail(email string) (Player, error) {

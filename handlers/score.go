@@ -12,7 +12,8 @@ import (
 )
 
 type ScoreService interface {
-	Create(players []services.Player, match services.Match) error
+	// Create(players []services.Player, match services.Match) error
+	Create(playerID uint, matchID uint) error
 	GetAll() ([]*services.Score, error)
 	Get(scoreID int) (services.Score, error)
 }

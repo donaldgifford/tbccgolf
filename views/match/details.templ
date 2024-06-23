@@ -28,10 +28,10 @@ templ Details(tz string, match services.Match) {
 				</span>
 			</li>
 			<li>
-				Holes: { strconv.Itoa(match.Length) }
+				Holes: { match.Holes }
 			</li>
 			<li>
-				Scoring: { match.ScoringType }
+				Scoring: { match.Scoring }
 			</li>
 			<li>
 				Players:
@@ -39,12 +39,6 @@ templ Details(tz string, match services.Match) {
 					for _, p := range match.Players {
 						<details>
 							<summary role="button" class="secondary">{ p.Username }</summary>
-							for _, s := range match.Scores {
-								for _, st := range s.Strokes {
-									<p>{ strconv.Itoa(int(st.Hole)) }</p>
-									<p>{ strconv.Itoa(int(st.Strokes)) }</p>
-								}
-							}
 							<p></p>
 						</details>
 					}

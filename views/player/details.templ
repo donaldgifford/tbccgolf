@@ -1,6 +1,7 @@
 package player
 
 import (
+	"strconv"
 	"fmt"
 	"github.com/donaldgifford/tbccgolf/services"
 	"github.com/donaldgifford/tbccgolf/views/layout"
@@ -31,6 +32,17 @@ templ Details(tz string, player services.Player) {
 				<span>
 					{ services.ConverDateTime(tz, player.CreatedAt) }
 				</span>
+			</li>
+			<li>
+				Scores:
+				<ul>
+					for _, s := range player.Scores {
+						<details>
+							<summary role="button" class="secondary">Match: { strconv.Itoa(int(s.MatchID)) }</summary>
+							<p></p>
+						</details>
+					}
+				</ul>
 			</li>
 		</ul>
 		<footer>

@@ -30,7 +30,8 @@ templ Show(scores []*services.Score) {
 									{ strconv.Itoa(int(s.ID)) }
 								</a>
 							</td>
-							<td>{ s.Player.Username }</td>
+							<td>{ strconv.Itoa(int(s.PlayerID)) }</td>
+							<td>{ strconv.Itoa(int(s.MatchID)) }</td>
 							<td>Stroke</td>
 						</tr>
 					}

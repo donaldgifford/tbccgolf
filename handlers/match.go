@@ -21,7 +21,7 @@ type MatchService interface {
 	CreateMatch(m services.Match) error
 	CompleteMatch(matchID int) error
 	ListPlayers() ([]services.PlayerList, error)
-	GetPlayer(name string) (*services.Player, error)
+	GetPlayer(name string) (services.Player, error)
 }
 
 func NewMatchHandler(ms MatchService) *MatchHandler {
@@ -70,11 +70,12 @@ func (mh *MatchHandler) ShowMatches(c echo.Context) error {
 }
 
 type MatchCreateForm struct {
-	Player1     string `form:"Player1"`
-	Player2     string `form:"Player2"`
-	NetScore    string `form:"scoring-type"`
-	ScoringType string `form:"scoring-type"`
-	Length      string `form:"Length"`
+	Player1  string `form:"Player1"`
+	Player2  string `form:"Player2"`
+	GameType string `form:"scoring-type"`
+	Scoring  string `form:"scoring-type"`
+	Length   string `form:"Length"`
+	Title    string `form:"Title"`
 }
 
 func (mh *MatchHandler) CreateMatch(c echo.Context) error {
@@ -109,7 +110,7 @@ func (mh *MatchHandler) CreateMatch(c echo.Context) error {
 			return c.String(http.StatusBadRequest, "bad request")
 		}
 
-		var players []*services.Player
+		var players []services.Player
 
 		player1, err := mh.MatchService.GetPlayer(newMatch.Player1)
 		if err != nil {
@@ -133,12 +134,19 @@ func (mh *MatchHandler) CreateMatch(c echo.Context) error {
 
 		fmt.Printf("length: %d\n", l)
 
-		newMatchService := services.Match{
-			ScoringType: newMatch.ScoringType,
-			Length:      l,
-			Players:     players,
-		}
+		// newMatchService := services.Match{
+		// 	ScoringType: newMatch.ScoringType,
+		// 	Length:      l,
+		// 	Players:     players,
+		// }
 
+		newMatchService := services.Match{
+			Players:  players,
+			Title:    newMatch.Title,
+			GameType: newMatch.GameType,
+			Holes:    newMatch.Length,
+			Scoring:  newMatch.Scoring,
+		}
 		// err := ah.PlayerService.CreatePlayer(player)
 		err = mh.MatchService.CreateMatch(newMatchService)
 		if err != nil {
@@ -196,14 +204,14 @@ func (mh *MatchHandler) MatchDetails(c echo.Context) error {
 		fmt.Println(p.Username)
 	}
 
-	for _, m := range matchData.Scores {
-		for _, p := range m.Strokes {
-			fmt.Println(p.Strokes)
-			fmt.Println(p.Hole)
-			fmt.Println(p.HoleNumber)
-		}
-		fmt.Println(m.Strokes)
-	}
+	// for _, m := range matchData.Scores {
+	// 	for _, p := range m.Strokes {
+	// 		fmt.Println(p.Strokes)
+	// 		fmt.Println(p.Hole)
+	// 		fmt.Println(p.HoleNumber)
+	// 	}
+	// 	fmt.Println(m.Strokes)
+	// }
 
 	return mh.View(c, match.DetailsIndex(
 		"| Match Details",
