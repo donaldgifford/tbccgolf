@@ -163,3 +163,55 @@ func (mh *MatchHandler) CreateMatch(c echo.Context) error {
 		match.NewMatch(cdata, tz),
 	))
 }
+
+func (mh *MatchHandler) MatchDetails(c echo.Context) error {
+	isError = false
+
+	idParam, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		return err
+	}
+	fmt.Println(idParam)
+
+	tz := ""
+	if len(c.Request().Header["X-Timezone"]) != 0 {
+		tz = c.Request().Header["X-Timezone"][0]
+	}
+	matchData, err := mh.MatchService.GetMatch(idParam)
+	if err != nil {
+		if strings.Contains(err.Error(), "no rows in result set") {
+			return echo.NewHTTPError(http.StatusNotFound, err)
+		}
+		return echo.NewHTTPError(
+			echo.ErrInternalServerError.Code,
+			fmt.Sprintf(
+				"something went wrong: %s",
+				err,
+			))
+	}
+	fmt.Println(matchData)
+	fmt.Println(matchData.Players)
+	fmt.Println(matchData.Scores)
+	for _, p := range matchData.Players {
+		fmt.Println(p.Username)
+	}
+
+	for _, m := range matchData.Scores {
+		for _, p := range m.Strokes {
+			fmt.Println(p.Strokes)
+			fmt.Println(p.Hole)
+			fmt.Println(p.HoleNumber)
+		}
+		fmt.Println(m.Strokes)
+	}
+
+	return mh.View(c, match.DetailsIndex(
+		"| Match Details",
+		"",
+		fromProtected,
+		isError,
+		getFlashmessages(c, "error"),
+		getFlashmessages(c, "success"),
+		match.Details(tz, matchData),
+	))
+}

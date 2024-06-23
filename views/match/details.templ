@@ -9,15 +9,15 @@ import (
 
 templ Details(tz string, match services.Match) {
 	<h1>
-		{ fmt.Sprintf("Match details %d", match.ID) }
+		{ strconv.Itoa(int(match.ID)) } | { match.Title }
 	</h1>
-	<a hx-swap="transition:true" href={ templ.URL(fmt.Sprintf("/match/edit/%d", match.ID)) }>
+	<a hx-swap="transition:true" href={ templ.URL(fmt.Sprintf("/matches/edit/%d", match.ID)) }>
 		Edit
 	</a>
 	<article>
 		<header>
 			<mark>
-				{ strconv.Itoa(int(match.ID)) }
+				{ fmt.Sprintf("Match details %d", match.ID) }
 			</mark>
 		</header>
 		<ul>
@@ -27,9 +27,32 @@ templ Details(tz string, match services.Match) {
 					{ services.ConverDateTime(tz, match.CreatedAt) }
 				</span>
 			</li>
+			<li>
+				Holes: { strconv.Itoa(match.Length) }
+			</li>
+			<li>
+				Scoring: { match.ScoringType }
+			</li>
+			<li>
+				Players:
+				<ul>
+					for _, p := range match.Players {
+						<details>
+							<summary role="button" class="secondary">{ p.Username }</summary>
+							for _, s := range match.Scores {
+								for _, st := range s.Strokes {
+									<p>{ strconv.Itoa(int(st.Hole)) }</p>
+									<p>{ strconv.Itoa(int(st.Strokes)) }</p>
+								}
+							}
+							<p></p>
+						</details>
+					}
+				</ul>
+			</li>
 		</ul>
 		<footer>
-			<a hx-swap="transition:true" href="/match">
+			<a hx-swap="transition:true" href="/matches">
 				<p>
 					&larr; Back to match List
 				</p>

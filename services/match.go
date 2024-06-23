@@ -11,12 +11,14 @@ import (
 
 type Match struct {
 	gorm.Model
-	NetScore    bool `form:"NetScore"`
-	ScoringType string
-	Length      int       `form:"Length"`
-	Players     []*Player `gorm:"many2many:player_matches" form:"Players"`
-	Completed   bool
-	Title       string
+	NetScore     bool `form:"NetScore"`
+	ScoringType  string
+	Length       int       `form:"Length"`
+	Players      []*Player `gorm:"many2many:player_matches" form:"Players"`
+	Completed    bool
+	Title        string
+	StartingHole int
+	Scores       []*Score
 }
 
 type PlayerList struct {
@@ -52,7 +54,8 @@ func (ms *ServicesMatch) GetMatches() ([]*Match, error) {
 func (ms *ServicesMatch) GetMatch(matchID int) (Match, error) {
 	var matches []*Match
 
-	if res := ms.DB.Find(&matches, matchID); res.Error != nil {
+	if res := ms.DB.Model(Match{}).Preload("Players").Preload("Scores").Find(&matches, matchID); res.Error != nil {
+		// if res := ms.DB.Find(&matches, matchID); res.Error != nil {
 		return Match{}, res.Error
 	}
 
@@ -72,6 +75,26 @@ func (ms *ServicesMatch) CreateMatch(m Match) error {
 	}
 
 	if err := ms.DB.Create(&newMatch).Error; err != nil {
+		return err
+	}
+
+	var scores []Score
+	holeScores := generateHoles(newMatch.StartingHole, newMatch.Length)
+	holeStrokes := generateStrokes(holeScores)
+
+	for _, p := range newMatch.Players {
+		var s Score
+		s.Player = p
+		s.PlayerID = p.ID
+		s.Match = newMatch
+		s.MatchID = newMatch.ID
+		s.Holes = holeScores
+		s.Strokes = holeStrokes
+
+		scores = append(scores, s)
+	}
+
+	if err := ms.DB.Create(&scores).Error; err != nil {
 		return err
 	}
 

@@ -35,14 +35,16 @@ func main() {
 
 	ps := services.NewServicesPlayer(services.Player{}, gorm)
 	ms := services.NewServicesMatch(services.Match{}, gorm)
+	ss := services.NewServicesScore(services.Score{}, gorm)
 	// se := services.NewServicesEvent(services.Event{}, gorm)
 	ah := handlers.NewAuthHandler(ps)
 
 	// s := handlers.SSEHandler(se)
 	p := handlers.NewPlayerHandler(ps)
 	m := handlers.NewMatchHandler(ms)
+	s := handlers.NewScoreHandler(ss)
 
-	handlers.SetupRoutes(e, p, m, ah)
+	handlers.SetupRoutes(e, p, m, s, ah)
 
 	e.Logger.Fatal(e.Start(":8080"))
 }

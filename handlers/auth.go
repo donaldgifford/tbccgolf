@@ -17,7 +17,7 @@ import (
 )
 
 const (
-	auth_sessions_key string = "authenticate-sessions"
+	auth_sessions_key string = "tbcc-authenticate-sessions"
 	auth_key          string = "authenticated"
 	user_id_key       string = "user_id"
 	username_key      string = "username"
@@ -147,7 +147,7 @@ func (ah *AuthHandler) loginHandler(c echo.Context) error {
 
 		setFlashmessages(c, "success", "You are now logged in!")
 
-		return c.Redirect(http.StatusSeeOther, "/")
+		return c.Redirect(http.StatusSeeOther, "/home")
 	}
 
 	return renderView(c, auth_views.LoginIndex(

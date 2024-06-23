@@ -1,56 +1,61 @@
 package match
 
 import (
-	"strconv"
-	"github.com/donaldgifford/tbccgolf/services"
-	"github.com/donaldgifford/tbccgolf/views/layout"
-	"fmt"
+"strconv"
+"github.com/donaldgifford/tbccgolf/services"
+"github.com/donaldgifford/tbccgolf/views/layout"
+"fmt"
 )
 
 templ Show(matches []*services.Match) {
-	<h1>
-		Match List
-	</h1>
-	<a hx-swap="transition:true" href={ templ.URL(fmt.Sprintf("/matches/create")) }>
-		New Match
-	</a>
-	<section>
-		<table>
-			<thead>
-				<tr>
-					<th>Match ID</th>
-					<th>Player 1</th>
-					<th>Player 2</th>
-					<th>Holes</th>
-					<th>Score Type</th>
-					<th>Game Type</th>
-				</tr>
-			</thead>
-			if len(matches) != 0 {
-				<tbody>
-					for _, match := range matches {
-						<tr>
-							<td>{ strconv.Itoa(int(match.ID)) }</td>
-							for _, player := range match.Players {
-								<td>{ player.Username }</td>
-							}
-							<td>{ strconv.Itoa(match.Length) }</td>
-							<td>{ match.ScoringType } </td>
-							<td>Stroke</td>
-						</tr>
-					}
-				</tbody>
-			} else {
-				<tbody>
-					<tr>
-						<td>
-							There are no matches to show yet
-						</td>
-					</tr>
-				</tbody>
-			}
-		</table>
-	</section>
+<h1>
+  Match List
+</h1>
+<a hx-swap="transition:true" href={ templ.URL(fmt.Sprintf("/matches/create")) }>
+  New Match
+</a>
+<section>
+  <table>
+    <thead>
+      <tr>
+        <th>Match ID</th>
+        <th>Player 1</th>
+        <th>Player 2</th>
+        <th>Holes</th>
+        <th>Score Type</th>
+        <th>Game Type</th>
+      </tr>
+    </thead>
+    if len(matches) != 0 {
+    <tbody>
+      for _, match := range matches {
+      <tr>
+        <td>
+          <a hx-swap="transition:true" href={ templ.URL(fmt.Sprintf("/matches/details/%s", strconv.Itoa(int(match.ID))))
+            }>
+            { strconv.Itoa(int(match.ID)) }
+          </a>
+        </td>
+        for _, player := range match.Players {
+        <td>{ player.Username }</td>
+        }
+        <td>{ strconv.Itoa(match.Length) }</td>
+        <td>{ match.ScoringType } </td>
+        <td>Stroke</td>
+      </tr>
+      }
+    </tbody>
+    } else {
+    <tbody>
+      <tr>
+        <td>
+          There are no matches to show yet
+        </td>
+      </tr>
+    </tbody>
+    }
+  </table>
+</section>
 }
 
 templ ShowIndex(
@@ -61,7 +66,7 @@ isError bool,
 errMsgs, sucMsgs []string,
 cmp templ.Component,
 ) {
-	@layout.Base(title, username, fromProtected, isError, errMsgs, sucMsgs) {
-		@cmp
-	}
+@layout.Base(title, username, fromProtected, isError, errMsgs, sucMsgs) {
+@cmp
+}
 }
