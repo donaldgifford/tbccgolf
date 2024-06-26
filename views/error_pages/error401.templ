@@ -2,7 +2,7 @@ package error_pages
 
 import "github.com/donaldgifford/tbccgolf/views/layout"
 
-templ Error401(fromProtected bool) {
+templ Error401() {
 <section class="flex flex-col items-center justify-center h-[100vh] gap-4">
   <div class="items-center justify-center flex flex-col gap-4">
     <h1 class="text-9xl font-extrabold text-gray-700 tracking-widest">
@@ -22,19 +22,11 @@ templ Error401(fromProtected bool) {
 }
 
 templ ErrorIndex(
-title,
-username string,
-fromProtected bool,
-isError bool,
+title string,
 cmp templ.Component,
 ) {
 @layout.Base(
 title,
-username,
-fromProtected,
-isError,
-[]string{},
-[]string{},
 ) {
 @cmp
 }

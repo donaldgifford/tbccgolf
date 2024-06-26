@@ -1,0 +1,70 @@
+package match
+
+import (
+	"fmt"
+	"strconv"
+	"github.com/donaldgifford/tbccgolf/services"
+
+	"github.com/donaldgifford/tbccgolf/views/layout"
+)
+
+templ EnterScore(hole services.HoleScore) {
+	<h1>
+		{ strconv.Itoa(int(hole.HoleNumber)) }
+	</h1>
+	<form hx-swap="transition:true" class="" action="" method="post">
+		Enter Strokes:
+		<input type="number" name="strokes" min="0" max="10"/>
+		<footer>
+			<button>Submit</button>
+		</footer>
+	</form>
+}
+
+templ EnterScore2(scoreid uint, hole int) {
+	<h1>Hole: { strconv.Itoa(hole) }</h1>
+	<form hx-swap="transition:true" class="" action="" method="post">
+		Enter Strokes:
+		<input type="number" name="strokes" min="0" max="10"/>
+		<footer>
+			<button>Submit</button>
+		</footer>
+	</form>
+}
+
+templ MatchNav(ms services.Match) {
+	<nav>
+		<ul>
+			<li>
+				<strong>
+					<a hx-swap="transition:true" href={ templ.URL(fmt.Sprintf("/matches/details/%d", int(ms.ID))) }>
+						Match Screen
+					</a>
+				</strong>
+			</li>
+		</ul>
+		<ul>
+			for m, _ := range ms.Holes {
+				<li>
+					<a href={ templ.URL(fmt.Sprintf("/matches/scoring/%d/%d", int(ms.ID), m)) }>
+						{ strconv.Itoa(m) }
+					</a>
+				</li>
+			}
+		</ul>
+	</nav>
+}
+
+templ MatchScoringHome(m services.Match) {
+	@MatchNav(m)
+	<h1>Match: { m.Title }</h1>
+}
+
+templ MatchScoringIndex(
+title string,
+cmp templ.Component,
+) {
+	@layout.Base(title) {
+		@cmp
+	}
+}

@@ -10,7 +10,7 @@ import "context"
 import "io"
 import "bytes"
 
-func Navbar(username string, fromProtected bool) templ.Component {
+func Navbar() templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -23,35 +23,7 @@ func Navbar(username string, fromProtected bool) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<nav><ul><li><strong><a hx-swap=\"transition:true\" href=\"/\">TBCC Golf</a></strong></li></ul><ul>")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		if fromProtected {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<li><details class=\"dropdown\"><summary>")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			var templ_7745c5c3_Var2 string
-			templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(username)
-			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/partials/navbar.templ`, Line: 17, Col: 25}
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</summary><ul dir=\"rtl\"><li><a herf=\"\">Profile</a></li><li><a herf=\"\">Matches</a></li><li><a herf=\"\">Settings</a></li></ul></details></li><li><a hx-swap=\"transition:true\" href=\"/player\">Players</a></li><li><a hx-swap=\"transition:true\" href=\"/scores\">Scores</a></li><li><a hx-swap=\"transition:true\" href=\"/matches\">Matches</a></li><li><button hx-swap=\"transition:true\" hx-post=\"/player/logout\" hx-confirm=\"Are you sure you want to log out?\" hx-target=\"body\" hx-push-url=\"true\" class=\"btn btn-ghost text-lg\">Logout</button></li>")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-		} else {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<li><a hx-swap=\"transition:true\" href=\"/register\">Register</a></li><li><a hx-swap=\"transition:true\" href=\"/login\"><button>Login</button></a></li>")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</ul></nav>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<nav><ul><li><strong><a hx-swap=\"transition:true\" href=\"/\">TBCC Golf</a></strong></li></ul><ul><li><a hx-swap=\"transition:true\" href=\"/players\">Players</a></li><li><a hx-swap=\"transition:true\" href=\"/scores\">Scores</a></li><li><a hx-swap=\"transition:true\" href=\"/matches\">Matches</a></li></ul></nav>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

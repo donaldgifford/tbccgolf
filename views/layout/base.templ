@@ -2,7 +2,7 @@ package layout
 
 import "github.com/donaldgifford/tbccgolf/views/partials"
 
-templ Base(title, username string, fromProtected, isError bool, errMsgs, sucMsgs []string) {
+templ Base(title string) {
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
 
@@ -23,13 +23,10 @@ templ Base(title, username string, fromProtected, isError bool, errMsgs, sucMsgs
 
 <body class="sample-transition" hx-boost="true">
   <header class="container">
-    if !isError {
-    @partials.Navbar(username, fromProtected)
-    }
+    @partials.Navbar()
   </header>
-  <main class={ templ.KV("pt-40", !isError), "container" }>
+  <main class="container">
     { children... }
-    @partials.FlashMessages(errMsgs, sucMsgs)
   </main>
 </body>
 

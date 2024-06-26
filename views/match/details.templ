@@ -37,8 +37,17 @@ templ Details(tz string, match services.Match) {
 				Players:
 				<ul>
 					for _, p := range match.Players {
-						<details>
-							<summary role="button" class="secondary">{ p.Username }</summary>
+						<details id={ fmt.Sprintf("#player-%s", strconv.Itoa(int(p.ID))) } hx-boost="true">
+							<summary
+								hx-trigger="click"
+								hx-get={ fmt.Sprintf("/scores/details/%s", "4") }
+								hx-target={ fmt.Sprintf("#player-score-%s", strconv.Itoa(int(p.ID))) }
+								role="button"
+								class="secondary"
+							>
+								{ p.Name }
+							</summary>
+							<div id={ fmt.Sprintf("#player-score-%s", strconv.Itoa(int(p.ID))) }></div>
 							<p></p>
 						</details>
 					}
@@ -56,14 +65,10 @@ templ Details(tz string, match services.Match) {
 }
 
 templ DetailsIndex(
-title,
-username string,
-fromProtected bool,
-isError bool,
-errMsgs, sucMsgs []string,
+title string,
 cmp templ.Component,
 ) {
-	@layout.Base(title, username, fromProtected, isError, errMsgs, sucMsgs) {
+	@layout.Base(title) {
 		@cmp
 	}
 }

@@ -1,0 +1,55 @@
+package player
+
+import (
+"github.com/donaldgifford/tbccgolf/services"
+"strconv"
+)
+
+templ Scores(scores []services.Score) {
+<table>
+  <thead>
+    <tr>
+      <th scope="col">Match</th>
+      <th scope="col">Game Type</th>
+      <th scope="col">Completed</th>
+      <th scope="col">Holes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">Match ID 1</th>
+      <td>Match Play</td>
+      <td>True</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th scope="row">Match ID 1</th>
+      <td>Match Play</td>
+      <td>True</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th scope="row">Match ID 1</th>
+      <td>Match Play</td>
+      <td>True</td>
+      <td>9</td>
+    </tr>
+    for _, s := range scores {
+    <tr>
+      <th scope="row">Match: { strconv.Itoa(int(s.MatchID)) }</th>
+      <th>Match</th>
+      <th>{ strconv.FormatBool(s.Completed) }</th>
+      <th>9</th>
+    </tr>
+    }
+  </tbody>
+  <tfoot>
+    <tr>
+      <th scope="row">Average</th>
+      <td>3</td>
+      <td>n/a</td>
+      <td>9</td>
+    </tr>
+  </tfoot>
+</table>
+}

@@ -16,28 +16,21 @@ func CustomHTTPErrorHandler(err error, c echo.Context) {
 	}
 	c.Logger().Error(err)
 
-	var errorPage func(fp bool) templ.Component
+	var errorPage func() templ.Component
 
 	switch code {
 	case 401:
 		errorPage = error_pages.Error401
 	case 404:
 		errorPage = error_pages.Error404
+	case 405:
+		errorPage = error_pages.Error405
 	case 500:
 		errorPage = error_pages.Error500
 	}
 
-	isError = true
-
 	renderView(c, error_pages.ErrorIndex(
 		fmt.Sprintf("| Error (%d)", code),
-		"",
-		fromProtected,
-		isError,
-		errorPage(fromProtected),
+		errorPage(),
 	))
-	// errorPage := fmt.Sprintf("views/%d.html", code)
-	// if err := c.File(errorPage); err != nil {
-	// c.Logger().Error(err)
-	// }
 }

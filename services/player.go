@@ -2,28 +2,14 @@ package services
 
 import (
 	"fmt"
-	"time"
 
-	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
 
-// type Player struct {
-// 	gorm.Model
-// 	Name     string   `json:"name"`
-// 	Email    string   `json:"email"`
-// 	Password string   `json:"password"`
-// 	Username string   `json:"username"`
-// 	Matches  []*Match `gorm:"many2many:player_matches"`
-// }
-
 type Player struct {
 	gorm.Model
-	Name     string `json:"name"`
-	Email    string `json:"email"`
-	Password string `json:"password"`
-	Username string `json:"username"`
-
+	Name     string
+	Email    string
 	Handicap int
 	Matches  []*Match `gorm:"many2many:player_matches"`
 	Scores   []Score
@@ -41,65 +27,11 @@ type ServicesPlayer struct {
 	DB     *gorm.DB
 }
 
-func (sp *ServicesPlayer) GetAllPlayers() ([]*Player, error) {
-	var players []*Player
-
-	if res := sp.DB.Find(&players); res.Error != nil {
-		return nil, res.Error
-	}
-
-	return players, nil
-}
-
-func ConverDateTime(tz string, dt time.Time) string {
-	loc, _ := time.LoadLocation(tz)
-
-	return dt.In(loc).Format(time.RFC822Z)
-}
-
-func (sp *ServicesPlayer) GetPlayerById(id int) (Player, error) {
-	var players []*Player
-
-	if res := sp.DB.Preload("Scores").Find(&players, id); res.Error != nil {
-		return Player{}, res.Error
-	}
-
-	return *players[0], nil
-}
-
-// func (sp *ServicesPlayer) CreatePlayer(p Player) error {
-// 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(p.Password), 8)
-// 	if err != nil {
-// 		return err
-// 	}
-//
-// 	newPlayer := Player{
-// 		Email:    p.Email,
-// 		Username: p.Username,
-// 		Name:     p.Name,
-// 		// Profile:  Profile{Link: p.Profile.Link},
-// 		Password: string(hashedPassword),
-// 	}
-//
-// 	if err := sp.DB.Create(&newPlayer).Error; err != nil {
-// 		return err
-// 	}
-//
-// 	return err
-// }
-
-func (sp *ServicesPlayer) CreatePlayer(p Player) error {
-	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(p.Password), 8)
-	if err != nil {
-		return err
-	}
-
+func (sp *ServicesPlayer) Create(p Player) error {
 	newPlayer := Player{
 		Email:    p.Email,
 		Name:     p.Name,
 		Handicap: p.Handicap,
-		Username: p.Username,
-		Password: string(hashedPassword),
 	}
 
 	// if err := sp.DB.Create(&newPlayer).Error; err != nil {
@@ -116,43 +48,22 @@ func (sp *ServicesPlayer) CreatePlayer(p Player) error {
 	return nil
 }
 
-func (sp *ServicesPlayer) CheckEmail(email string) (Player, error) {
-	var p Player
+func (sp *ServicesPlayer) GetAll() ([]*Player, error) {
+	var players []*Player
 
-	if err := sp.DB.Where("email = ?", email).First(&p).Error; err != nil {
-		return p, err
+	if res := sp.DB.Find(&players); res.Error != nil {
+		return nil, res.Error
 	}
 
-	return p, nil
+	return players, nil
 }
 
-func ConvertDateTime(tz string, dt time.Time) string {
-	loc, _ := time.LoadLocation(tz)
+func (sp *ServicesPlayer) GetPlayerById(id int) (Player, error) {
+	var players []*Player
 
-	return dt.In(loc).Format(time.RFC822Z)
-}
-
-func (sp *ServicesPlayer) UpdatePlayer(player Player) error {
-	existingPlayer := new(Player)
-
-	if res := sp.DB.Find(&existingPlayer, "id = ?", player.ID); res.Error != nil {
-		return res.Error
+	if res := sp.DB.Find(&players, id); res.Error != nil {
+		return Player{}, res.Error
 	}
 
-	if player.Name != "" {
-		existingPlayer.Name = player.Name
-	}
-
-	if player.Username != "" {
-		existingPlayer.Username = player.Username
-	}
-	if player.Email != "" {
-		existingPlayer.Email = player.Email
-	}
-
-	if err := sp.DB.Save(&existingPlayer).Error; err != nil {
-		return err
-	}
-
-	return nil
+	return *players[0], nil
 }

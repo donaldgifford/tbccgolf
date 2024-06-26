@@ -2,36 +2,20 @@ package auth_views
 
 import "github.com/donaldgifford/tbccgolf/views/layout"
 
-templ Home(fromProtected bool) {
+templ Home() {
 <section>
   <h1>Welcome to TBCC Golf !!</h1>
   <p>
     Create new matches, etc, etc.
   </p>
-  if !fromProtected {
-  <hr />
-  <p>You have an account?</p>
-  <footer>
-    <a hx-swap="transition:true" href="/login">
-      Log In
-    </a>
-    <a hx-swap="transition:true" href="/register">
-      Sign Up
-    </a>
-  </footer>
-  }
 </section>
 }
 
 templ HomeIndex(
-title,
-username string,
-fromProtected bool,
-isError bool,
-errMsgs, sucMsgs []string,
+title string,
 cmp templ.Component,
 ) {
-@layout.Base(title, username, fromProtected, isError, errMsgs, sucMsgs) {
+@layout.Base(title) {
 @cmp
 }
 }

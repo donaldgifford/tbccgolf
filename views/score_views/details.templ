@@ -1,0 +1,61 @@
+package score_views
+
+import (
+	"strconv"
+	"github.com/donaldgifford/tbccgolf/services"
+	"github.com/donaldgifford/tbccgolf/views/layout"
+)
+
+var score = 0
+
+templ Details(tz string, scorecard services.Score) {
+	<h1>
+		Scorecard details
+	</h1>
+	<article>
+		<header>
+			<mark>
+				{ strconv.Itoa(int(scorecard.PlayerID)) } - Match { strconv.Itoa(int(scorecard.MatchID)) }
+			</mark>
+		</header>
+		<table>
+			<thead>
+				<tr>
+					<th>Hole</th>
+					for _, h := range scorecard.HoleScores {
+						<td>{ strconv.Itoa(int(h.HoleNumber)) }</td>
+					}
+					<th>OUT</th>
+				</tr>
+			</thead>
+			<tr>
+				<th>Par</th>
+				for _, p := range scorecard.HoleScores {
+					<td>{ strconv.Itoa(int(p.Par)) }</td>
+				}
+			</tr>
+			<tr>
+				<th>HCP</th>
+				for _, hc := range scorecard.HoleScores {
+					<td>{ strconv.Itoa(int(hc.Handicap)) }</td>
+				}
+			</tr>
+			<tr>
+				<th>Strokes</th>
+				for _, st := range scorecard.HoleScores {
+					<td>{ strconv.Itoa(int(st.Strokes)) }</td>
+				}
+				<td>{ strconv.Itoa(int(scorecard.Total)) }</td>
+			</tr>
+		</table>
+	</article>
+}
+
+templ DetailsIndex(
+title string,
+cmp templ.Component,
+) {
+	@layout.Base(title) {
+		@cmp
+	}
+}

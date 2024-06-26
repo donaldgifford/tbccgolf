@@ -15,7 +15,7 @@ var (
 )
 
 const (
-	DBFile = "tbcc.db"
+	DBFile = "tbcctest.db"
 )
 
 func Init() {

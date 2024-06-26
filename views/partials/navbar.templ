@@ -1,69 +1,32 @@
 package partials
 
-templ Navbar(username string, fromProtected bool) {
-	<nav>
-		<ul>
-			<li>
-				<strong>
-					<a hx-swap="transition:true" href="/">
-						TBCC Golf
-					</a>
-				</strong>
-			</li>
-		</ul>
-		<ul>
-			if fromProtected {
-				<li>
-					<details class="dropdown">
-						<summary>{ username }</summary>
-						<ul dir="rtl">
-							<li><a herf="">Profile</a></li>
-							<li><a herf="">Matches</a></li>
-							<li><a herf="">Settings</a></li>
-						</ul>
-					</details>
-				</li>
-				<li>
-					<a hx-swap="transition:true" href="/player">
-						Players
-					</a>
-				</li>
-				<li>
-					<a hx-swap="transition:true" href="/scores">
-						Scores
-					</a>
-				</li>
-				<li>
-					<a hx-swap="transition:true" href="/matches">
-						Matches
-					</a>
-				</li>
-				<li>
-					<button
-						hx-swap="transition:true"
-						hx-post="/player/logout"
-						hx-confirm="Are you sure you want to log out?"
-						hx-target="body"
-						hx-push-url="true"
-						class="btn btn-ghost text-lg"
-					>
-						Logout
-					</button>
-				</li>
-			} else {
-				<li>
-					<a hx-swap="transition:true" href="/register">
-						Register
-					</a>
-				</li>
-				<li>
-					<a hx-swap="transition:true" href="/login">
-						<button>
-							Login
-						</button>
-					</a>
-				</li>
-			}
-		</ul>
-	</nav>
+templ Navbar() {
+<nav>
+  <ul>
+    <li>
+      <strong>
+        <a hx-swap="transition:true" href="/">
+          TBCC Golf
+        </a>
+      </strong>
+    </li>
+  </ul>
+  <ul>
+    <li>
+      <a hx-swap="transition:true" href="/players">
+        Players
+      </a>
+    </li>
+    <li>
+      <a hx-swap="transition:true" href="/scores">
+        Scores
+      </a>
+    </li>
+    <li>
+      <a hx-swap="transition:true" href="/matches">
+        Matches
+      </a>
+    </li>
+  </ul>
+</nav>
 }

@@ -1,0 +1,15 @@
+package player
+
+import (
+"github.com/donaldgifford/tbccgolf/services"
+"strconv"
+)
+
+templ ShowHTML(players []*services.Player) {
+<option selected disabled value="">
+  Select player
+</option>
+for _, player := range players {
+<option value={ strconv.Itoa(int(player.ID)) }>{ player.Name }</option>
+}
+}

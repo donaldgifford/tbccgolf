@@ -1,69 +1,61 @@
 package player
 
 import (
-	"strconv"
-	"fmt"
-	"github.com/donaldgifford/tbccgolf/services"
-	"github.com/donaldgifford/tbccgolf/views/layout"
+"strconv"
+"fmt"
+"github.com/donaldgifford/tbccgolf/services"
+"github.com/donaldgifford/tbccgolf/views/layout"
 )
 
 templ Details(tz string, player services.Player) {
-	<h1>
-		{ fmt.Sprintf("User details %s", player.Name) }
-	</h1>
-	<a hx-swap="transition:true" href={ templ.URL(fmt.Sprintf("/player/edit/%d", player.ID)) }>
-		Edit
-	</a>
-	<article>
-		<header>
-			<mark>
-				{ player.Username }
-			</mark>
-		</header>
-		<ul>
-			<li>
-				Email:&nbsp;&nbsp;
-				<span>
-					{ player.Email }
-				</span>
-			</li>
-			<li>
-				Created At:&nbsp;&nbsp;
-				<span>
-					{ services.ConverDateTime(tz, player.CreatedAt) }
-				</span>
-			</li>
-			<li>
-				Scores:
-				<ul>
-					for _, s := range player.Scores {
-						<details>
-							<summary role="button" class="secondary">Match: { strconv.Itoa(int(s.MatchID)) }</summary>
-							<p></p>
-						</details>
-					}
-				</ul>
-			</li>
-		</ul>
-		<footer>
-			<a hx-swap="transition:true" href="/player">
-				<p>
-					&larr; Back to Player List
-				</p>
-			</a>
-		</footer>
-	</article>
+<h1>
+  { fmt.Sprintf("Player details %s", player.Name) }
+</h1>
+<a hx-swap="transition:true" href={ templ.URL(fmt.Sprintf("/player/edit/%d", player.ID)) }>
+  Edit
+</a>
+<article>
+  <header>
+    <mark>
+      { player.Name }
+    </mark>
+  </header>
+  <ul>
+    <li>
+      Email:&nbsp;&nbsp;
+      <span>
+        { player.Email }
+      </span>
+    </li>
+    <li>
+      Created At:&nbsp;&nbsp;
+      <span>
+        { services.ConverDateTime(tz, player.CreatedAt) }
+      </span>
+    </li>
+    <li>
+      Handicap:
+      <span>
+        { strconv.Itoa(player.Handicap) }
+      </span>
+    </li>
+  </ul>
+  <footer>
+    <a hx-swap="transition:true" href="/players">
+      <p>
+        &larr; Back to Player List
+      </p>
+    </a>
+  </footer>
+</article>
+@Scores(player.Scores)
 }
 
 templ DetailsIndex(
-title,
-username string,
-fromProtected bool,
-isError bool,
-errMsgs, sucMsgs []string,
+title string,
 cmp templ.Component,
 ) {
-	@layout.Base(title, username, fromProtected, isError, errMsgs, sucMsgs) {
-		@cmp
-	}
+@layout.Base(title) {
+@cmp
+}
 }

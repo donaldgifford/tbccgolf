@@ -54,6 +54,7 @@ func Show(matches []*services.Match) templ.Component {
 					return templ_7745c5c3_Err
 				}
 				var templ_7745c5c3_Var3 templ.SafeURL = templ.URL(fmt.Sprintf("/matches/details/%s", strconv.Itoa(int(match.ID))))
+
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(string(templ_7745c5c3_Var3)))
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
@@ -65,7 +66,7 @@ func Show(matches []*services.Match) templ.Component {
 				var templ_7745c5c3_Var4 string
 				templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.Itoa(int(match.ID)))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/match/show.templ`, Line: 37, Col: 38}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/match/show.templ`, Line: 35, Col: 41}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 				if templ_7745c5c3_Err != nil {
@@ -81,9 +82,9 @@ func Show(matches []*services.Match) templ.Component {
 						return templ_7745c5c3_Err
 					}
 					var templ_7745c5c3_Var5 string
-					templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(player.Username)
+					templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(player.Name)
 					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/match/show.templ`, Line: 41, Col: 29}
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/match/show.templ`, Line: 39, Col: 25}
 					}
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 					if templ_7745c5c3_Err != nil {
@@ -101,7 +102,7 @@ func Show(matches []*services.Match) templ.Component {
 				var templ_7745c5c3_Var6 string
 				templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(match.Holes)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/match/show.templ`, Line: 43, Col: 24}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/match/show.templ`, Line: 41, Col: 25}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 				if templ_7745c5c3_Err != nil {
@@ -114,7 +115,7 @@ func Show(matches []*services.Match) templ.Component {
 				var templ_7745c5c3_Var7 string
 				templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(match.Scoring)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/match/show.templ`, Line: 44, Col: 26}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/match/show.templ`, Line: 42, Col: 27}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 				if templ_7745c5c3_Err != nil {
@@ -147,11 +148,7 @@ func Show(matches []*services.Match) templ.Component {
 }
 
 func ShowIndex(
-	title,
-	username string,
-	fromProtected bool,
-	isError bool,
-	errMsgs, sucMsgs []string,
+	title string,
 	cmp templ.Component,
 ) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
@@ -181,7 +178,7 @@ func ShowIndex(
 			}
 			return templ_7745c5c3_Err
 		})
-		templ_7745c5c3_Err = layout.Base(title, username, fromProtected, isError, errMsgs, sucMsgs).Render(templ.WithChildren(ctx, templ_7745c5c3_Var9), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = layout.Base(title).Render(templ.WithChildren(ctx, templ_7745c5c3_Var9), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
