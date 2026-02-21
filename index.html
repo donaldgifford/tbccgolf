@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Twin Beach CC — Design A Revised: Heritage + TBCC Green</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* ─── TBCC Brand Greens ─── */
+    --green-deep: #1a3a2a;
+    --green-primary: #234d35;
+    --green-mid: #2d6341;
+    --green-light: #3a7a52;
+    --green-pale: #e8f0eb;
+    --green-tint: #f2f7f4;
+
+    /* ─── Gold Accents ─── */
+    --gold: #c4a55a;
+    --gold-light: #d4ba7a;
+    --gold-warm: #b8943e;
+    --gold-pale: #f5f0e0;
+
+    /* ─── Neutrals ─── */
+    --cream: #faf8f4;
+    --cream-warm: #f4f1ea;
+    --white: #ffffff;
+    --text-dark: #1a1a1a;
+    --text: #333333;
+    --text-mid: #5a5a5a;
+    --text-light: #888888;
+    --border: #e4e0d8;
+
+    /* ─── Type ─── */
+    --font-display: 'Cormorant Garamond', Georgia, serif;
+    --font-body: 'Outfit', system-ui, sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--cream);
+    color: var(--text);
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ─── Navigation ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 0 48px;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(250, 248, 244, 0.95);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    transition: all 0.4s ease;
+  }
+  nav.scrolled {
+    background: rgba(250, 248, 244, 0.98);
+    box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+  }
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .nav-logo-mark {
+    width: 42px; height: 42px;
+    background: var(--green-primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold);
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 500;
+  }
+  .nav-logo-text {
+    font-family: var(--font-display);
+    font-size: 20px;
+    color: var(--green-deep);
+    letter-spacing: 0.01em;
+  }
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+  .nav-links a {
+    color: var(--text-mid);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    position: relative;
+    transition: color 0.3s;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px; left: 0;
+    width: 0; height: 2px;
+    background: var(--green-mid);
+    transition: width 0.3s ease;
+  }
+  .nav-links a:hover { color: var(--green-primary); }
+  .nav-links a:hover::after { width: 100%; }
+  .nav-member {
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: var(--white);
+    background: var(--green-primary);
+    text-decoration: none;
+    padding: 10px 24px;
+    transition: all 0.3s;
+  }
+  .nav-member:hover {
+    background: var(--green-deep);
+  }
+
+  /* ─── Hero ─── */
+  .hero {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    overflow: hidden;
+  }
+  .hero-photo {
+    flex: 1;
+    min-height: 50vh;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-photo img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  /* thin gold rule between photo and green band */
+  .hero-photo::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--gold);
+  }
+  .hero-content {
+    background: var(--green-primary);
+    text-align: center;
+    padding: 64px 48px 72px;
+    animation: fadeUp 1s ease-out;
+  }
+  .hero-accent {
+    width: 40px; height: 2px;
+    background: var(--gold);
+    margin: 0 auto 24px;
+  }
+  .hero-sub {
+    font-family: var(--font-body);
+    font-size: 12px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+    font-weight: 400;
+  }
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(44px, 6vw, 80px);
+    font-weight: 300;
+    line-height: 1.08;
+    color: var(--white);
+    margin-bottom: 24px;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--gold-light);
+  }
+  .hero-tagline {
+    font-size: 16px;
+    color: rgba(255,255,255,0.65);
+    max-width: 540px;
+    margin: 0 auto 36px;
+    font-weight: 300;
+    line-height: 1.7;
+  }
+  .hero-btns {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .btn-gold {
+    display: inline-block;
+    padding: 14px 36px;
+    background: var(--gold);
+    color: var(--green-deep);
+    text-decoration: none;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 600;
+    transition: all 0.3s;
+  }
+  .btn-gold:hover {
+    background: var(--gold-light);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(196,165,90,0.25);
+  }
+  .btn-outline-light {
+    display: inline-block;
+    padding: 13px 36px;
+    border: 1px solid rgba(255,255,255,0.4);
+    color: rgba(255,255,255,0.9);
+    text-decoration: none;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 400;
+    transition: all 0.3s;
+  }
+  .btn-outline-light:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  /* ─── Section Divider ─── */
+  .divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 60px 0;
+  }
+  .divider-line { width: 60px; height: 1px; background: var(--border); }
+  .divider-icon { color: var(--green-mid); font-size: 16px; opacity: 0.5; }
+
+  /* ─── Intro Section (cream bg) ─── */
+  .intro {
+    max-width: 720px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 0 24px 80px;
+  }
+  .intro h2 {
+    font-family: var(--font-display);
+    font-size: clamp(32px, 4vw, 50px);
+    font-weight: 300;
+    color: var(--green-deep);
+    margin-bottom: 28px;
+    line-height: 1.15;
+  }
+  .intro p {
+    font-size: 16px;
+    color: var(--text-mid);
+    line-height: 1.9;
+  }
+
+  /* ─── Feature: Green Background Section ─── */
+  .feature-green {
+    background: var(--green-primary);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 560px;
+  }
+  .feature-image {
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    min-height: 400px;
+  }
+  .feature-text-green {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px;
+  }
+  .feature-label {
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+    font-weight: 500;
+  }
+  .feature-text-green h3 {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 3.5vw, 44px);
+    font-weight: 300;
+    color: var(--white);
+    margin-bottom: 24px;
+    line-height: 1.15;
+  }
+  .feature-text-green p {
+    font-size: 15px;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.8;
+    margin-bottom: 32px;
+    max-width: 440px;
+  }
+  .feature-link-light {
+    color: var(--gold);
+    text-decoration: none;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: gap 0.3s;
+  }
+  .feature-link-light:hover { gap: 16px; }
+  .feature-link-light svg { width: 16px; height: 16px; }
+
+  /* ─── Feature: Cream Background Section ─── */
+  .feature-cream {
+    background: var(--cream);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 560px;
+  }
+  .feature-text-cream {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px;
+  }
+  .feature-label-green {
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--green-mid);
+    margin-bottom: 20px;
+    font-weight: 500;
+  }
+  .feature-text-cream h3 {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 3.5vw, 44px);
+    font-weight: 300;
+    color: var(--green-deep);
+    margin-bottom: 24px;
+    line-height: 1.15;
+  }
+  .feature-text-cream p {
+    font-size: 15px;
+    color: var(--text-mid);
+    line-height: 1.8;
+    margin-bottom: 32px;
+    max-width: 440px;
+  }
+  .feature-link-dark {
+    color: var(--green-primary);
+    text-decoration: none;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: gap 0.3s;
+  }
+  .feature-link-dark:hover { gap: 16px; color: var(--gold-warm); }
+  .feature-link-dark svg { width: 16px; height: 16px; }
+
+  /* ─── Three-Up Cards (light bg) ─── */
+  .cards-section {
+    padding: 100px 48px;
+    background: var(--white);
+  }
+  .cards-header {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+  .cards-header h2 {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 3.5vw, 42px);
+    font-weight: 300;
+    color: var(--green-deep);
+  }
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+  .card {
+    position: relative;
+    aspect-ratio: 3/4;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  .card-img {
+    position: absolute; inset: 0;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.8s ease;
+  }
+  .card:hover .card-img { transform: scale(1.05); }
+  .card-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top,
+      rgba(26,58,42,0.92) 0%,
+      rgba(26,58,42,0.4) 40%,
+      rgba(26,58,42,0.05) 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 36px;
+    transition: background 0.4s;
+  }
+  .card:hover .card-overlay {
+    background: linear-gradient(to top,
+      rgba(26,58,42,0.95) 0%,
+      rgba(26,58,42,0.5) 45%,
+      rgba(26,58,42,0.1) 100%);
+  }
+  .card-label {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 10px;
+    font-weight: 500;
+  }
+  .card h4 {
+    font-family: var(--font-display);
+    font-size: 26px;
+    font-weight: 400;
+    color: var(--white);
+    margin-bottom: 10px;
+  }
+  .card p {
+    font-size: 14px;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.6;
+    max-width: 280px;
+  }
+
+  /* ─── Membership CTA (green bg) ─── */
+  .membership-cta {
+    background: var(--green-deep);
+    position: relative;
+    overflow: hidden;
+  }
+  .membership-cta-bg {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(to right,
+        rgba(26,58,42,0.95) 0%,
+        rgba(26,58,42,0.85) 40%,
+        rgba(26,58,42,0.6) 100%),
+      url('https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=1920&q=80') center/cover no-repeat;
+  }
+  .membership-cta-content {
+    position: relative; z-index: 2;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 80px;
+    align-items: center;
+    padding: 100px 48px;
+  }
+  .membership-cta h2 {
+    font-family: var(--font-display);
+    font-size: clamp(36px, 5vw, 56px);
+    font-weight: 300;
+    color: var(--white);
+    line-height: 1.15;
+    margin-bottom: 24px;
+  }
+  .membership-cta h2 em {
+    font-style: italic;
+    color: var(--gold-light);
+  }
+  .membership-cta > div > p {
+    font-size: 16px;
+    color: rgba(255,255,255,0.6);
+    max-width: 480px;
+    line-height: 1.8;
+    margin-bottom: 36px;
+  }
+  .membership-types {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .membership-type {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 28px;
+    transition: background 0.3s, border-color 0.3s;
+  }
+  .membership-type:hover {
+    background: rgba(255,255,255,0.1);
+    border-color: rgba(196,165,90,0.3);
+  }
+  .membership-type h5 {
+    font-family: var(--font-display);
+    font-size: 20px;
+    color: var(--gold-light);
+    margin-bottom: 8px;
+    font-weight: 400;
+  }
+  .membership-type p {
+    font-size: 13px;
+    color: rgba(255,255,255,0.45);
+    line-height: 1.5;
+  }
+
+  /* ─── Info Bar (cream bg with green accents) ─── */
+  .info-bar {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    background: var(--cream-warm);
+  }
+  .info-item {
+    padding: 48px;
+    text-align: center;
+    border-right: 1px solid var(--border);
+  }
+  .info-item:last-child { border-right: none; }
+  .info-item h5 {
+    font-family: var(--font-display);
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--green-mid);
+    margin-bottom: 12px;
+    font-weight: 500;
+  }
+  .info-item p {
+    font-size: 15px;
+    color: var(--text);
+    font-weight: 300;
+  }
+
+  /* ─── Footer (green) ─── */
+  footer {
+    padding: 80px 48px;
+    background: var(--green-deep);
+  }
+  .footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 60px;
+  }
+  .footer-brand h4 {
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-weight: 400;
+    color: var(--white);
+    margin-bottom: 16px;
+  }
+  .footer-brand p {
+    font-size: 14px;
+    color: rgba(255,255,255,0.4);
+    line-height: 1.7;
+    max-width: 300px;
+  }
+  .footer-col h6 {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+    font-weight: 500;
+  }
+  .footer-col a {
+    display: block;
+    color: rgba(255,255,255,0.4);
+    text-decoration: none;
+    font-size: 14px;
+    margin-bottom: 10px;
+    transition: color 0.2s;
+  }
+  .footer-col a:hover { color: var(--white); }
+  .footer-bottom {
+    max-width: 1200px;
+    margin: 48px auto 0;
+    padding-top: 32px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: rgba(255,255,255,0.3);
+  }
+
+  /* ─── Announcement Pop ─── */
+  .announcement {
+    background: var(--gold);
+    padding: 14px 48px;
+    text-align: center;
+    font-size: 14px;
+    color: var(--green-deep);
+    font-weight: 500;
+  }
+  .announcement a {
+    color: var(--green-deep);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  /* ─── Animations ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .fade-in {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ─── Responsive ─── */
+  @media (max-width: 1024px) {
+    .feature-green,
+    .feature-cream { grid-template-columns: 1fr; }
+    .feature-image { min-height: 400px; }
+    .feature-text-green,
+    .feature-text-cream { padding: 60px 32px; }
+    .cards-grid { grid-template-columns: 1fr; gap: 24px; }
+    .card { aspect-ratio: 16/9; }
+    .membership-cta-content { grid-template-columns: 1fr; gap: 48px; }
+    .footer-inner { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 768px) {
+    nav { padding: 0 24px; }
+    .nav-links { display: none; }
+    .hero-photo { min-height: 40vh; }
+    .hero-content { padding: 48px 24px 56px; }
+    .hero-btns { flex-direction: column; align-items: center; }
+    .info-bar { grid-template-columns: 1fr; }
+    .info-item { border-right: none; border-bottom: 1px solid var(--border); }
+    .membership-types { grid-template-columns: 1fr; }
+    .footer-inner { grid-template-columns: 1fr; gap: 40px; }
+    .footer-bottom { flex-direction: column; gap: 8px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Design Direction: Heritage Revised v2 — TBCC Green & Gold, Solid Green Hero Band -->
+
+<!-- Navigation -->
+<nav id="mainNav">
+  <div class="nav-logo">
+    <div class="nav-logo-mark">TB</div>
+    <div class="nav-logo-text">Twin Beach Country Club</div>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#">Golf</a></li>
+    <li><a href="#">Dining</a></li>
+    <li><a href="#">Membership</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+  <a href="#" class="nav-member">Member Login</a>
+</nav>
+
+<!-- Hero (photo top, solid green text band bottom) -->
+<section class="hero">
+  <div class="hero-photo">
+    <img src="https://images.unsplash.com/photo-1587174486073-ae5e5cff23aa?w=1920&q=80" alt="Twin Beach Country Club golf course">
+  </div>
+  <div class="hero-content">
+    <div class="hero-accent"></div>
+    <p class="hero-sub">West Bloomfield, Michigan</p>
+    <h1>A Course <em>Unlike</em><br>Any Other</h1>
+    <p class="hero-tagline">Nine holes. Two sets of tees. Three double greens. A walkable round that plays like no course you've experienced.</p>
+    <div class="hero-btns">
+      <a href="#" class="btn-gold">Book a Tee Time</a>
+      <a href="#" class="btn-outline-light">Explore the Course</a>
+    </div>
+  </div>
+</section>
+
+<!-- Announcement -->
+<div class="announcement">
+  Text 248-309-2333 with "Preview" for a chance to win a FREE 2026 Preview Golf Membership!
+  <a href="#">Learn More →</a>
+</div>
+
+<!-- Divider -->
+<div class="divider">
+  <div class="divider-line"></div>
+  <div class="divider-icon">◆</div>
+  <div class="divider-line"></div>
+</div>
+
+<!-- Intro (cream background) -->
+<section class="intro fade-in">
+  <h2>Where the Game<br>Comes First</h2>
+  <p>Twin Beach Country Club is a unique 9/18 hole walkable golf course featuring two sets of tees on each hole and three double greens. Nestled in West Bloomfield, our course offers an intimate, unhurried round — the way the game was meant to be played.</p>
+</section>
+
+<!-- Feature: Golf Course (GREEN background, image left, text right) -->
+<section class="feature-green fade-in">
+  <div class="feature-image" style="background-image: url('https://images.unsplash.com/photo-1611374243147-44a702c2d44c?w=1200&q=80')"></div>
+  <div class="feature-text-green">
+    <span class="feature-label">The Course</span>
+    <h3>Two Courses<br>in One</h3>
+    <p>Play nine holes or eighteen — each round is a different experience. Dual tee boxes on every hole and three double greens create variety that rewards repeat play and keeps you coming back.</p>
+    <a href="#" class="feature-link-light">
+      Explore the Course
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- Feature: Clubhouse (CREAM background, text left, image right) -->
+<section class="feature-cream fade-in">
+  <div class="feature-text-cream">
+    <span class="feature-label-green">The Clubhouse</span>
+    <h3>Dine With<br>a View</h3>
+    <p>Our newly renovated clubhouse features premium-casual dining and a full bar overlooking the outdoor patio. From post-round drinks to private banquets, every gathering feels effortless.</p>
+    <a href="#" class="feature-link-dark">
+      View Menus &amp; Events
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+  <div class="feature-image" style="background-image: url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1200&q=80')"></div>
+</section>
+
+<!-- Three Cards (white background) -->
+<section class="cards-section fade-in">
+  <div class="cards-header">
+    <div class="divider" style="padding: 0 0 40px 0;">
+      <div class="divider-line"></div>
+      <div class="divider-icon">◆</div>
+      <div class="divider-line"></div>
+    </div>
+    <h2>Life at Twin Beach</h2>
+  </div>
+  <div class="cards-grid">
+    <div class="card">
+      <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1593111774240-d529f12cf4bb?w=800&q=80')"></div>
+      <div class="card-overlay">
+        <span class="card-label">Instruction</span>
+        <h4>PGA Lessons</h4>
+        <p>Professional instruction for every level, from junior golf programs to advanced coaching.</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1529543544282-ea98407407b0?w=800&q=80')"></div>
+      <div class="card-overlay">
+        <span class="card-label">Community</span>
+        <h4>Golf Leagues</h4>
+        <p>Competitive and social leagues throughout the season. Find your group and make it a weekly tradition.</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=800&q=80')"></div>
+      <div class="card-overlay">
+        <span class="card-label">Events</span>
+        <h4>Banquets &amp; Outings</h4>
+        <p>Host your next corporate outing, wedding reception, or celebration in our newly renovated spaces.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Membership CTA (deep green with photo background) -->
+<section class="membership-cta fade-in">
+  <div class="membership-cta-bg"></div>
+  <div class="membership-cta-content">
+    <div>
+      <span class="feature-label">Membership</span>
+      <h2>Your Place at <em>Twin Beach</em></h2>
+      <p>Join a community of golfers who value the walk, the challenge, and the camaraderie. Memberships are available for individuals, families, and juniors.</p>
+      <a href="#" class="btn-gold">Inquire About Membership</a>
+    </div>
+    <div class="membership-types">
+      <div class="membership-type">
+        <h5>Individual</h5>
+        <p>Full course access, leagues, dining, and pro shop</p>
+      </div>
+      <div class="membership-type">
+        <h5>Family</h5>
+        <p>Includes spouse and dependent memberships</p>
+      </div>
+      <div class="membership-type">
+        <h5>Junior</h5>
+        <p>Youth membership with instruction access</p>
+      </div>
+      <div class="membership-type">
+        <h5>Preview</h5>
+        <p>Try the club before committing to full membership</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Info Bar (cream) -->
+<div class="info-bar fade-in">
+  <div class="info-item">
+    <h5>Location</h5>
+    <p>7625 Glascott Avenue<br>West Bloomfield, MI</p>
+  </div>
+  <div class="info-item">
+    <h5>Pro Shop</h5>
+    <p>248-363-3335</p>
+  </div>
+  <div class="info-item">
+    <h5>Season</h5>
+    <p>April through October</p>
+  </div>
+</div>
+
+<!-- Footer (deep green) -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <h4>Twin Beach Country Club</h4>
+      <p>A unique 9/18 hole walkable course in West Bloomfield, Michigan. Two sets of tees, three double greens, and a newly renovated clubhouse.</p>
+    </div>
+    <div class="footer-col">
+      <h6>Golf</h6>
+      <a href="#">Book Tee Time</a>
+      <a href="#">Pro Shop</a>
+      <a href="#">Lessons</a>
+      <a href="#">Rates &amp; Pricing</a>
+      <a href="#">Leagues</a>
+      <a href="#">Junior Golf</a>
+    </div>
+    <div class="footer-col">
+      <h6>Club</h6>
+      <a href="#">Dining</a>
+      <a href="#">Banquets</a>
+      <a href="#">Social Events</a>
+      <a href="#">Gallery</a>
+      <a href="#">Employment</a>
+    </div>
+    <div class="footer-col">
+      <h6>Connect</h6>
+      <a href="#">Contact Us</a>
+      <a href="#">Facebook</a>
+      <a href="#">Members Only</a>
+      <a href="#">Pay My Bill</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; 2026 Twin Beach Country Club. All rights reserved.</span>
+    <span>7625 Glascott Avenue, West Bloomfield, MI 48324</span>
+  </div>
+</footer>
+
+<script>
+  // Nav scroll effect
+  const nav = document.getElementById('mainNav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 80);
+  });
+
+  // Fade-in on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
