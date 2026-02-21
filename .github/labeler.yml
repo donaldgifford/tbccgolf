@@ -1,0 +1,12 @@
+---
+# Branch prefix labels (git-workflow conventions)
+feature:
+  - head-branch: ['^feat/']
+chore:
+  - head-branch: ['^chore/']
+fix:
+  - head-branch: ['^fix/']
+docs:
+  - head-branch: ['^docs/']
+bug:
+  - head-branch: ['^bug/']
